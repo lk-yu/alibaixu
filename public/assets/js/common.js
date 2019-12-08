@@ -39,3 +39,14 @@ function serializeObj(form) {
   });
   return obj;
 }
+//向服务器发送 拿到登陆用户信息
+$.ajax({
+  type: 'get',
+  url: '/users/'+ userId,
+  success: function (data) {
+    console.log(data);
+    //渲染数据至页面
+    $('.avatar').prop('src',data.avatar)
+    $('.name').html(data.nickName)
+  }
+})
