@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="../assets/vendors/nprogress/nprogress.css">
   <link rel="stylesheet" href="../assets/css/admin.css">
   <script src="../assets/vendors/nprogress/nprogress.js"></script>
-  
+  <script src="../assets/vendors/art-template/template-web.js"></script> 
 </head>
 <body>
   <script>NProgress.start()</script>
@@ -37,10 +37,7 @@
             <div class="panel-heading">
               <h3 class="panel-title">站点内容统计：</h3>
             </div>
-            <ul class="list-group">
-              <li class="list-group-item" id="post"></li>
-              <li class="list-group-item" id="category"></li>
-              <li class="list-group-item" id="comment"></li>
+            <ul class="list-group" id="dashboardBox">
             </ul>
           </div>
         </div>
@@ -92,5 +89,10 @@
   <script src="../assets/js/index.js"></script>
   <script>NProgress.done()</script>
   <script src="/assets/js/common.js"></script>
+  <script type="text/html" id="dashboardTpl">
+    <li class="list-group-item" id="post"><strong>{{r1.postCount}}</strong>篇文章(<strong>{{r1.draftCount}}</strong>篇草稿)</li>
+    <li class="list-group-item" id="category"><strong>{{r2.categoryCount}}</strong>个分类</li>
+    <li class="list-group-item" id="comment"><strong>{{r3.commentCount}}</strong>条评论</li>
+  </script>
 </body>
 </html>
