@@ -30,3 +30,12 @@ template.defaults.imports.formDate = function (date) {
   // return typeof("newDate.getMonth()+1")
   return newDate.getFullYear() + '-' + (newDate.getMonth() + 1).toString().padStart(2, '0') + '-' + newDate.getDate().toString().padStart(2, '0')
 }
+//封装转化字符串函数
+function serializeObj(form) {
+  var arr = form.serializeArray();
+  var obj = {};
+  arr.forEach((item) => {
+    obj[item.name] = item.value;
+  });
+  return obj;
+}

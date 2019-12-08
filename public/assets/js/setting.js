@@ -30,27 +30,40 @@ $('#logo').on('change', function () {
 $('#settingsForm').on('submit', function (e) {
     //阻止默认提交事件
     e.preventDefault()
-    // alert(1);
-    //获取用户在表单中输入的内容
-    let formData = $(this).serialize();
-    // console.log(formData);
-    //向服务器发送请求 实现网站设置数据添加功能
+
+    function serializeObj(e) {
+        var arr = e.serializeArray();
+        var obj = {};
+        arr.forEach((item) => {
+            obj[item.name] = item.value;
+        });
+        return obj;
+    }
+    let res = serializeObj($(this));
+    if (!res.comment) {
+        res.comment = false;
+    };
+    if (!res.review) {
+        res.review = false;
+    }
     $.ajax({
         type: 'post',
         url: '/settings',
-        data: formData,
+        data: res,
         success: function () {
             location.reload();
         }
     })
 
 })
+
 //向服务器发送请求 获取数据
 $.ajax({
     type: 'get',
     url: '/settings',
     success: function (res) {
         console.log(res);
+
         if (res) {
             //将logo的地址放到隐藏域中
             $('#hiddenLogo').val(res.logo);
@@ -62,15 +75,10 @@ $.ajax({
             $('#site_description').val(res.description);
             //渲染站点关键词显示在页面中
             $('#site_keywords').val(res.keywords);
-            //是否开启评论功能显示在页面中
-            // $('#comment_status').prop('checked', res.comment);
-            //是否经过人工审核显示在页面中
-            // $('#comment_reviewed').prop('checked',res.review);
-            // if ($('#comment_status').prop('checked', true)) {
-            //     $('#comment_status').val('checked',res.comment)
-            // } else if ($('#comment_status').prop('checked', false)) {
-            //     $('#comment_status').val('checked',res.comment)
-            // }
+            // 是否开启评论功能显示在页面中
+            $('#comment_status').prop('checked', res.comment);
+            // 是否经过人工审核显示在页面中
+            $('#comment_reviewed').prop('checked', res.review);
         }
     }
 })
