@@ -15,22 +15,8 @@ $.ajax({
     }
 })
 
-//处理日期格式的函数
-function  formDate(date) {
-    //date是要处理的日期 是一个字符串类型
-    //需要将日期字符串转换成日期对象
-     newDate = new Date(date) 
-     //拼接字符串 并将其返回
 
-     //检测到调用getFullYear()等方法后得到的是number数据类型 
-     //padStart()是字符串的方法 所以需要将其转换为字符串
-     //实验得到 不能用加引号的方式转换为字符串 要用toString强制转换
-    // return typeof(newDate.getMonth()+1) //number 
 
-    // return (newDate.getMonth()+1).toString().padStart(2,'0')
-    // return typeof("newDate.getMonth()+1")
-     return newDate.getFullYear()+'-'+(newDate.getMonth()+1).toString().padStart(2,'0')+'-'+newDate.getDate().toString().padStart(2,'0')
-}
 
 //定义点击页码跳转的函数
 function changePage(page) {
@@ -63,9 +49,9 @@ $.ajax({
     type:'get',
     success: function (data) {
         console.log(data);
-        let html = template('classTpl',{data})
+        let html = template('classTpl',{data: data})
         // console.log(html);
-        $('#classSlect').html(html)
+        $('#classSlect').html(html);
     }
 })
 
@@ -94,4 +80,22 @@ $('#filterForm').on('submit',function () {
 
     //阻止表单默认行为
     return false
+})
+//进行删除文章功能操作
+$('#listUser').on('click','.del',function(){
+    //弹框 进行二次确认操作
+    if (confirm('您真的要进行删除操作吗')) {
+        //获取登录用户想要删除的文章id
+        let id = $(this).attr('data-id');
+        console.log(id);
+        //发送请求给服务端 执行删除操作
+        $.ajax({
+            url:'/posts/' + id,
+            type:'delete',
+            success:function(){
+                location.reload();
+            }
+        })
+        
+    }
 })

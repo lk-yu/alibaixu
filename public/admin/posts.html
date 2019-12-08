@@ -20,7 +20,7 @@
     <nav class="navbar">
       <button class="btn btn-default navbar-btn fa fa-bars"></button>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="profile.html"><i class="fa fa-user"></i>个人中心</a></li>
+        <li><a href="password-reset.html"><i class="fa fa-user"></i>修改密码</a></li>
         <li><a href="login.html"><i class="fa fa-sign-out"></i>退出</a></li>
       </ul>
     </nav>
@@ -37,8 +37,8 @@
 
           </select>
           <select name="state" class="form-control input-sm" id="statusSlect">
-            <option value="" name="0">草稿</option>
-            <option value="" name="1">已发布</option>
+            <option value="0" name="0">草稿</option>
+            <option value="1" name="1">已发布</option>
           </select>
           <button class="btn btn-default btn-sm">筛选</button>
         </form>
@@ -107,6 +107,7 @@
   <script src="../assets/vendors/jquery/jquery.js"></script>
   <script src="../assets/vendors/bootstrap/js/bootstrap.js"></script>
   <script src="../assets/vendors/art-template/template-web.js"></script>
+  <script src="../assets/js/common.js"></script>
   <script>
     NProgress.done()
   </script>
@@ -118,10 +119,10 @@
       <td>{{$value.author.nickName}}</td>
       <td>{{$value.category.title}}</td>
       <td class="text-center">{{$imports.formDate($value.createAt)}}</td>
-      <td class="text-center">{{$value.status ==1 ? '已发布': '草稿'}}</td>
+      <td class="text-center">{{$value.state ==1 ? '已发布': '草稿'}}</td>
       <td class="text-center">
-        <a href="javascript:;" class="btn btn-default btn-xs">编辑</a>
-        <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
+        <a href="post-add.html?id={{$value._id}}" class="btn btn-default btn-xs">编辑</a>
+        <a href="javascript:;" class="btn btn-danger btn-xs del" data-id="{{$value._id}}">删除</a>
       </td>
     </tr>
     {{/each}}
@@ -142,7 +143,7 @@
   <!-- 分类模板 -->
   <script type="text/html" id="classTpl">
     {{each data}}
-    <option value="">{{$value.title}}</option>
+    <option value="{{$value._id}}">{{$value.title}}</option>
     {{/each}}
   </script>
 

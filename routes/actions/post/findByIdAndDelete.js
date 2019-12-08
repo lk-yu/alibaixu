@@ -25,10 +25,10 @@ module.exports = async (req, res) => {
 	// 删除用户
 	let post = await Post.findByIdAndDelete(id);
 	// 如果缩略图存在
-	if (post.thumbnail) {
-		// 删除缩略图
-		await unlink(path.join(__dirname, '../', '../', '../', 'public', post.thumbnail));
-	}
+	// if (post.thumbnail) {
+	// 	// 删除缩略图
+	// 	await unlink(path.join(__dirname, '../', '../', '../', 'public', post.thumbnail));
+	// }
 	// 响应
 	res.send(post);
 }

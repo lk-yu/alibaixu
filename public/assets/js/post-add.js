@@ -58,3 +58,55 @@ $('#addForm').on('submit', function () {
     //阻止表单默认行为
     return false
 })
+let id = getUrlParams('id');
+// console.log(id);
+//当准备做修改文章操作
+if (id != -1) {
+    //根据id获取文章的详细内容
+    $.ajax({
+        type:'get',
+        url:'/posts/'+ id,
+        success:function(res1){
+            $.ajax({
+                type:'get',
+                url:'/categories',
+                success:function(res2){
+                    res1.res2 = res2;
+                    console.log(res1)
+                    let html = template('modifyTpl',res1);
+                    console.log(html);
+                    $('#parentBox').html(html);
+                }
+            })
+        }
+    })
+}
+// 从浏览器的地址中url 获取查询参数
+function getUrlParams(params) {
+    let paramsArray = location.search.substr(1).split('&');
+    //循环这个分割后的数组
+    for (let i = 0; i < paramsArray.length; i++) {
+        const element = paramsArray[i].split('=');
+        if (element[0] == params) {
+            return element[1];
+        }
+    }
+    return -1;
+}
+//当修改完成文章信息表单发生提交行为的时候
+$('#parentBox').on('submit', '#modifyForm', function () {
+	// 获取管理员在表单中输入的内容
+	var formData = $(this).serialize()
+	// 获取管理员正在修改的文章id值
+	var id = $(this).attr('data-id');
+	$.ajax({
+		type: 'put',
+		url: '/posts/' + id,
+		data: formData,
+		success: function () {
+			location.href = '/admin/posts.html';
+		}
+	})
+	// 阻止表单默认提交行为
+	return false;
+});
